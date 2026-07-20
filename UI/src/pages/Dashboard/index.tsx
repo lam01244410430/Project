@@ -1,17 +1,14 @@
-import React from 'react'; // Thêm dòng này nếu chưa có
+import React from 'react';
 import { Card, Row, Col, Statistic, Empty, Spin } from 'antd';
 import { useRequest } from 'ahooks';
 import { api } from '../../services/api';
 import BarChart from '../../components/Charts/BarChart';
 import RadarChart from '../../components/Charts/RadarChart';
 
-// QUAN TRỌNG: Component phải được export default
 export default function Dashboard() {
   // Đảm bảo api.getStats và api.getClasses là các hàm trả về Promise
   const { data: statsData, loading: statsLoading } = useRequest(api.getStats);
   
-  // Lỗi có thể ở đây nếu api.getClasses chưa được định nghĩa trong api.ts
-  // Hãy kiểm tra file api.ts xem có hàm getClasses không
   const { data: classData, loading: classLoading } = useRequest(api.getClasses); 
 
   const subjectStats = statsData?.data || [];

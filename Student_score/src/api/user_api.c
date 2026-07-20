@@ -13,7 +13,6 @@ void handle_login(struct mg_connection *nc, int ev, void *ev_data, void *fn_data
     mg_http_get_var(&hm->body, "username", u, sizeof(u));
     mg_http_get_var(&hm->body, "password", p, sizeof(p));
 
-    // Simple auth check (Trong thực tế nên hash password)
     // Check admin
     if (strcmp(u, "admin") == 0 && strcmp(p, "admin123") == 0) {
         cJSON *root = cJSON_CreateObject();
@@ -45,7 +44,7 @@ void handle_login(struct mg_connection *nc, int ev, void *ev_data, void *fn_data
             cJSON_AddNumberToObject(root, "code", 200);
             cJSON *d = cJSON_CreateObject();
             cJSON_AddStringToObject(d, "token", "user-token");
-            cJSON_AddNumberToObject(d, "id", uid); // Quan trọng để lấy điểm cá nhân
+            cJSON_AddNumberToObject(d, "id", uid);
             cJSON_AddStringToObject(d, "username", u);
             cJSON_AddStringToObject(d, "realName", name ? name : u);
             cJSON_AddNumberToObject(d, "role", role);
@@ -126,7 +125,7 @@ void handle_delete_user(struct mg_connection *nc, int ev, void *ev_data, void *f
         return;
     }
 
-    // Thực hiện xóa (Cascade sẽ tự xóa bên bảng Students/Grades nếu thiết kế DB đúng)
+    // Thực hiện xóa
     sqlite3_stmt *stmt;
     const char *sql = "DELETE FROM 用户表 WHERE 用户ID = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {

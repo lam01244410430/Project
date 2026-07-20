@@ -1,5 +1,4 @@
 // src/api/subject_api.c
-// Subject Management API (Admin only) - English code, Chinese response messages
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,7 +28,7 @@ void handle_get_subjects(struct mg_connection *nc, int ev, void *ev_data, void *
 
     cJSON *root = cJSON_CreateObject();
     cJSON_AddNumberToObject(root, "code", 200);
-    cJSON_AddStringToObject(root, "msg", "获取科目列表成功");        // Chinese response
+    cJSON_AddStringToObject(root, "msg", "获取科目列表成功");
     cJSON_AddItemToObject(root, "data", array);
     send_json(nc, root);
     cJSON_Delete(root);

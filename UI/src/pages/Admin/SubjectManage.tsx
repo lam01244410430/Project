@@ -3,11 +3,10 @@ import { Table, Button, Modal, Form, InputNumber, Input, message, Tag, Space, Po
 import { PlusOutlined, BookOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { api } from '../../services/api';
 
-// Định nghĩa kiểu dữ liệu Subject khớp với Backend C
 interface SubjectItem {
   id: number;
-  name: string;       // Tên môn học (e.g. Mathematics)
-  fullScore: number;  // Điểm tối đa (e.g. 100)
+  name: string;       // Tên môn học
+  fullScore: number;  // Điểm tối đa
 }
 
 const SubjectManage: React.FC = () => {
@@ -57,15 +56,13 @@ const SubjectManage: React.FC = () => {
     }
   };
 
-  // --- 3. XỬ LÝ XOÁ (Optional) ---
-  /*
+  // --- 3. XỬ LÝ XOÁ ---
   const handleDelete = async (id: number) => {
     try {
       // Cần thêm api.deleteSubject(id) nếu backend hỗ trợ
       message.info("Delete feature coming soon");
     } catch (error) {}
   };
-  */
 
   // --- 4. CẤU HÌNH CỘT ---
   const columns = [
@@ -87,8 +84,8 @@ const SubjectManage: React.FC = () => {
       key: 'fullScore',
       render: (score: number) => <Tag color="green">{score} pts</Tag>
     },
+    
     // Cột hành động (Ẩn nếu chưa có API Xoá/Sửa)
-    /*
     {
       title: 'Action',
       key: 'action',
@@ -101,7 +98,6 @@ const SubjectManage: React.FC = () => {
         </Space>
       )
     }
-    */
   ];
 
   return (

@@ -1,4 +1,3 @@
-// src/api/score_api.c - FIX CUỐI CÙNG CHO MONGOOSE 7.20+ (DÙNG .buf THAY .ptr)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,13 +9,13 @@ void handle_batch_scores(struct mg_connection *nc, int ev, void *ev_data, void *
     (void)ev; (void)fn_data;
     struct mg_http_message *hm = (struct mg_http_message *)ev_data;
 
-    // Lấy body dưới dạng mg_str (dùng .buf và .len – chuẩn Mongoose 7.x)
+    // Lấy body dưới dạng mg_str
     struct mg_str body = hm->body;
     char *json_str = NULL;
     if (body.len > 0) {
         json_str = malloc(body.len + 1);
         if (json_str) {
-            memcpy(json_str, body.buf, body.len);  // ← FIX: body.buf thay body.ptr
+            memcpy(json_str, body.buf, body.len);
             json_str[body.len] = '\0';
         }
     }
@@ -74,7 +73,8 @@ void handle_batch_scores(struct mg_connection *nc, int ev, void *ev_data, void *
             // Ghi log (tùy chọn)
             char log_msg[256];
             snprintf(log_msg, sizeof(log_msg), "批量导入成绩: 学生%d, 科目%d, 分数%.1f", sid, subid, score);
-            // log_action(1, "ADD_SCORE", log_msg);  // Nếu có hàm log
+            // log_action(1, "ADD_SCORE", log_msg);  
+            // Nếu có hàm log
         } else {
             failed++;
         }
@@ -97,12 +97,12 @@ void handle_student_scores(struct mg_connection *nc, int ev, void *ev_data, void
     (void)ev; (void)fn_data;
     struct mg_http_message *hm = (struct mg_http_message *)ev_data;
 
-    // Lấy studentId từ URI: /api/scores/student/123 (dùng .buf và .len)
+    // Lấy studentId từ URI: /api/scores/student/123
     struct mg_str uri = hm->uri;
     int student_id = 0;
     if (uri.len > 20) {  // "/api/scores/student/" = 20 ký tự
         // Tìm vị trí số bắt đầu
-        const char *id_start = (const char *)uri.buf + 20;  // ← FIX: uri.buf thay uri.ptr
+        const char *id_start = (const char *)uri.buf + 20;
         char id_str[16] = {0};
         int i = 0;
         while (i < 15 && id_start[i] >= '0' && id_start[i] <= '9') {

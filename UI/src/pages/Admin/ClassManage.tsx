@@ -3,12 +3,11 @@ import { Table, Button, Modal, Form, Input, message, Space, Popconfirm, Tag } fr
 import { PlusOutlined, EditOutlined, DeleteOutlined, TeamOutlined } from '@ant-design/icons';
 import { api } from '../../services/api';
 
-// Định nghĩa kiểu dữ liệu Class khớp với Backend C trả về
 interface ClassItem {
   id: number;
-  name: string;        // Tên lớp (e.g. 10A1)
-  grade: string;       // Khối (e.g. 10)
-  headTeacher?: string; // Tên GVCN (nếu có)
+  name: string;        // Tên lớp
+  grade: string;       // Khối
+  headTeacher?: string; // Tên GVCN
 }
 
 const ClassManage: React.FC = () => {
@@ -59,8 +58,7 @@ const ClassManage: React.FC = () => {
     }
   };
 
-  // --- 3. XỬ LÝ XOÁ (Optional - Nếu backend hỗ trợ) ---
-  /*
+  // --- 3. XỬ LÝ XOÁ ---
   const handleDelete = async (id: number) => {
     try {
       await api.deleteClass(id); // Cần thêm API này trong api.ts và backend C
@@ -68,7 +66,6 @@ const ClassManage: React.FC = () => {
       loadClasses();
     } catch (error) {}
   };
-  */
 
   // --- 4. CẤU HÌNH CỘT ---
   const columns = [
@@ -96,8 +93,8 @@ const ClassManage: React.FC = () => {
       key: 'headTeacher',
       render: (name: string) => name ? <b>{name}</b> : <span style={{ color: '#999', fontStyle: 'italic' }}>Not Assigned</span>
     },
-    // Cột hành động (Sửa/Xoá) - Tạm thời ẩn nếu chưa có API
-    /*
+    
+    // Cột hành động (Sửa/Xoá)
     {
       title: 'Action',
       key: 'action',
@@ -110,7 +107,6 @@ const ClassManage: React.FC = () => {
         </Space>
       )
     }
-    */
   ];
 
   return (

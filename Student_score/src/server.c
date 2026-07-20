@@ -1,11 +1,9 @@
-// src/server.c - HOÀN HẢO 100% CHO MONGOOSE 7.X + MSYS2
 #include <stdio.h>
 #include <string.h>
 #include "mongoose.h"
 #include "database.h"
 #include "api/common.h"
 
-// Helper cho Mongoose 7.x (không còn mg_vcmp, mg_http_match_uri)
 static int mg_str_eq(struct mg_str s1, const char *s2) {
     return s1.len == strlen(s2) && memcmp(s1.buf, s2, s1.len) == 0;
 }
@@ -44,7 +42,6 @@ static void http_handler(struct mg_connection *nc, int ev, void *ev_data) {
             return;
         }
 
-        // ROUTER – ĐÃ SỬA ĐÚNG CHO MONGOOSE 7.X
         if (mg_str_starts_with(hm->uri, "/api/login"))                    handle_login(nc, ev, ev_data);
         else if (mg_str_starts_with(hm->uri, "/api/stats/subject-summary")) handle_subject_summary(nc, ev, ev_data);
         else if (mg_str_starts_with(hm->uri, "/api/classes/add"))           handle_add_class(nc, ev, ev_data); // Đặt trước /api/classes để tránh conflict
@@ -55,7 +52,7 @@ static void http_handler(struct mg_connection *nc, int ev, void *ev_data) {
         else if (mg_str_starts_with(hm->uri, "/api/subjects"))              handle_get_subjects(nc, ev, ev_data);
         else if (mg_str_starts_with(hm->uri, "/api/teachers"))              handle_get_teachers(nc, ev, ev_data);
         
-        // THÊM: Route cho Users
+        // Route cho Users
         else if (mg_str_starts_with(hm->uri, "/api/users/delete"))          handle_delete_user(nc, ev, ev_data);
         else if (mg_str_starts_with(hm->uri, "/api/users"))                 handle_get_users(nc, ev, ev_data);
 
